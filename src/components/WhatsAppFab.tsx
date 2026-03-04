@@ -7,7 +7,7 @@ export default function WhatsAppFab() {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="fixed bottom-6 left-6 z-50 inline-flex h-16 w-16 items-center justify-center rounded-[22px] bg-gradient-to-br from-[#25D366] to-[#06b759] text-white font-bold uppercase tracking-wider shadow-2xl shadow-[#128C7E]/50 transition duration-200 hover:translate-y-0.5 hover:shadow-[#128C7E]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#128C7E] sm:h-auto sm:w-auto sm:px-5 sm:py-3 sm:gap-3"
+      className="fixed bottom-6 left-6 z-50 inline-flex h-16 w-16 items-center justify-center rounded-[22px] bg-gradient-to-br from-[#25D366] to-[#06b759] text-white font-bold uppercase tracking-wider shadow-2xl shadow-[#128C7E]/50 transition duration-200 hover:translate-y-0.5 hover:shadow-[#128C7E]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#128C7E] sm:h-auto sm:w-auto sm:px-5 sm:py-3 sm:gap-3 md:hidden"
     >
       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20">
         <img
