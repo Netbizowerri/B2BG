@@ -63,7 +63,7 @@ export default function Programs({ limit }: ProgramsProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white rounded-2xl overflow-hidden shadow-lg group hover:shadow-2xl transition-all"
+            className="bg-white rounded-2xl overflow-hidden shadow-lg group hover:shadow-2xl transition-all interactive-card"
           >
             <div className="h-64 overflow-hidden">
               <img
@@ -78,7 +78,7 @@ export default function Programs({ limit }: ProgramsProps) {
               <p className="text-gray-600 mb-6 text-sm leading-relaxed">{program.desc}</p>
               <Link
                 to="/donate"
-                className="inline-block text-accent font-bold uppercase tracking-wider text-xs border-b-2 border-accent pb-1 hover:text-primary hover:border-primary transition-colors"
+                className="inline-block text-accent font-bold uppercase tracking-wider text-xs border-b-2 border-accent pb-1 hover:text-primary hover:border-primary transition-colors interactive-btn"
               >
                 Support This Program
               </Link>
@@ -89,7 +89,7 @@ export default function Programs({ limit }: ProgramsProps) {
 
       {limit && (
         <div className="mt-16 text-center">
-          <Link to="/programs" className="btn-primary">
+          <Link to="/focus-areas" className="btn-primary">
             View All Programs
           </Link>
         </div>
@@ -97,4 +97,3 @@ export default function Programs({ limit }: ProgramsProps) {
     </section>
   );
 }
-

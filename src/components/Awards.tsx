@@ -1,85 +1,104 @@
 import { motion } from 'motion/react';
+import { Award, Medal, Trophy } from 'lucide-react';
 
-const awards = [
+const recognitions = [
   {
-    year: '2024',
-    title: 'Excellence in Humanitarian Service',
-    desc: 'Recognized by the National NGO Council for outstanding impact in rural communities.',
-    image: 'https://picsum.photos/seed/award2024/400/300',
+    title: 'Eminent Peace Ambassador and Global Diplomat Membership',
+    date: 'February 6, 2021',
+    location: 'Ilorin, Kwara State, Nigeria',
+    description:
+      'In recognition of her positive contributions to societal peace through regular outreaches and vigorous campaigns for peace, community consciousness of safety rules, and maintenance of a crime- and violence-free society, the International Association of World Peace Advocates (United Nations ECOSOC Special Consultative Status since 2019 and signatory to the UN School Commitment to the SDG) granted DCNS. Amb. Dr. Felicia Arigo full membership status as an Eminent Peace Ambassador and Global Diplomat.',
   },
   {
-    year: '2023',
-    title: 'Climate Action Champion',
-    desc: 'Awarded for our extensive tree-planting and environmental sensitization campaigns.',
-    image: 'https://picsum.photos/seed/award2023/400/300',
+    title: 'Honorary Doctorate (D.Sc) in Leadership and Corporate Governance',
+    date: 'June 19, 2021',
+    location: 'Lagos Airport Hotel, Nigeria',
+    description:
+      'Special recognition of Blessed2Bless Global Empowerment Foundation (B2BG) and conferment of an Honorary Doctorate Degree (D.Sc) in Leadership and Corporate Governance by European-American University (EAU) to its International President/CEO, DCNS. Amb. Dr. Felicia Arigo.',
   },
   {
-    year: '2022',
-    title: 'SDG Integration Award',
-    desc: 'Honored for aligning community programs with global sustainability goals.',
-    image: 'https://picsum.photos/seed/award2022/400/300',
+    title: 'Fellowship - Centre for Public Service Productivity and Development',
+    date: 'September 13, 2022',
+    location: 'Sheraton Hotel, Ikeja, Lagos, Nigeria',
+    description:
+      'Massive congratulations to our International President, PST. Amb. Dr. Felicia Arigo, who was elected a Fellow of the prestigious Centre for Public Service Productivity and Development in recognition of her professional standing and demonstrated commitment to creating, maintaining, extending, and promoting high global standards in productivity and economic growth.',
   },
   {
-    year: '2021',
-    title: 'Community Empowerment Leader',
-    desc: 'Recognized for our skill acquisition programs that empowered over 5,000 youth.',
-    image: 'https://picsum.photos/seed/award2021/400/300',
+    title: 'Conferment of CIMC and CHMC Titles',
+    date: 'February 23, 2021',
+    location: 'Recognized in over 40 countries',
+    description:
+      'The International President of Blessed2Bless Global Empowerment Foundation (B2BG), Amb. Felicia Arigo, was conferred with the prestigious titles of CIMC and CHMC by the Institute of Management Consultants, with all rights and privileges and international recognition.',
+  },
+  {
+    title: '2021 African Leadership Award - Beacon of Hope for African Development',
+    date: 'September 23, 2021',
+    location: 'Nigeria',
+    description:
+      'Special recognition of Blessed2Bless Global Empowerment Foundation (B2BG) and conferment of the 2021 African Leadership Award as "Beacon of Hope for African Development" to its International President/CEO, DCNS. Amb. Dr. Felicia Arigo.',
+  },
+  {
+    title: 'Recognition in "100 Audacious Nigerian Women"',
+    date: 'December 15, 2022',
+    location: 'Lagos Chamber of Commerce and Industries (LCC), Ikeja, Lagos',
+    description:
+      'Massive congratulations to B2BG worldwide, as our International President, PST. Amb. Dr. Felicia Arigo, was recognized and featured in the book "100 Audacious Nigerian Women," with the book launch held at the LCC Conference Hall and copies becoming a staple on shelves of foreign embassies in Nigeria.',
+  },
+  {
+    title: 'International Day of Charity Certificate',
+    date: 'September 8, 2021',
+    location: 'NAF Headquarters, Kado',
+    description:
+      'Certificate issued on International Day of Charity on September 8, 2021 at NAF Headquarters, Kado.',
   },
 ];
 
+const icons = [Trophy, Medal, Award];
+
 export default function Awards() {
   return (
-    <section id="awards" className="section-padding bg-white">
-      <div className="text-center mb-16">
+    <section id="awards" className="section-padding bg-gradient-to-b from-white to-neutral-bg">
+      <div className="text-center mb-14">
         <h2 className="text-accent font-bold uppercase tracking-widest mb-2">Recognitions</h2>
         <h3 className="text-3xl md:text-4xl font-bold text-primary">Our Journey of Excellence</h3>
       </div>
 
-      <div className="max-w-5xl mx-auto relative">
-        {/* Timeline Line */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-accent/20 hidden md:block" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {recognitions.map((item, index) => {
+          const Icon = icons[index % icons.length];
 
-        <div className="space-y-12 md:space-y-24">
-          {awards.map((award, i) => (
-            <motion.div
-              key={award.year}
-              initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className={`flex flex-col md:flex-row items-center gap-8 ${
-                i % 2 !== 0 ? 'md:flex-row-reverse' : ''
-              }`}
+          return (
+            <motion.article
+              key={item.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.35, delay: index * 0.04 }}
+              className="group rounded-2xl border border-accent/15 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg interactive-card"
             >
-              {/* Content */}
-              <div className="flex-1 text-center md:text-left">
-                <div className={`flex flex-col ${i % 2 !== 0 ? 'md:items-end md:text-right' : ''}`}>
-                  <span className="text-5xl font-bold text-accent/20 mb-2">{award.year}</span>
-                  <h4 className="text-2xl font-bold text-primary mb-4">{award.title}</h4>
-                  <p className="text-gray-600 leading-relaxed max-w-md">
-                    {award.desc}
-                  </p>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors">
+                  <Icon size={22} />
                 </div>
+                <span className="text-xs font-bold uppercase tracking-wider bg-primary/5 text-primary px-3 py-1 rounded-full">
+                  #{index + 1}
+                </span>
               </div>
 
-              {/* Dot */}
-              <div className="relative z-10 hidden md:block">
-                <div className="w-6 h-6 bg-accent rounded-full border-4 border-white shadow-md" />
-              </div>
+              <h4 className="text-lg md:text-xl font-bold text-primary mb-3 leading-snug">{item.title}</h4>
+              <p className="text-sm text-gray-600 leading-relaxed">{item.description}</p>
 
-              {/* Image */}
-              <div className="flex-1 w-full">
-                <div className="rounded-2xl overflow-hidden shadow-lg aspect-video">
-                  <img
-                    src={award.image}
-                    alt={award.title}
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">
+                  {item.date}
+                </span>
+                <span className="text-xs font-semibold text-secondary bg-secondary/10 px-3 py-1 rounded-full">
+                  {item.location}
+                </span>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            </motion.article>
+          );
+        })}
       </div>
     </section>
   );

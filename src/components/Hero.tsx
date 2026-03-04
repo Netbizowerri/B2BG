@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1920',
+    image: 'https://i.ibb.co/PzJ8y0ct/B2BG-5.jpg',
     title: 'Empowering Lives. Restoring Hope.',
     subtitle: 'Transforming Communities.',
   },

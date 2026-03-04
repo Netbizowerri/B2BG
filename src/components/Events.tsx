@@ -1,6 +1,5 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 
 const events = [
   {
@@ -21,22 +20,22 @@ const events = [
   {
     title: 'Touching Lives',
     desc: 'Our flagship humanitarian outreach providing medical support and food security.',
-    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=800',
+    image: 'https://i.ibb.co/RGzR9crL/B2BG-10.jpg',
   },
   {
     title: 'Stakeholder Tours',
     desc: 'Engaging with local leaders and stakeholders to foster national integration and development.',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800',
+    image: 'https://i.ibb.co/nNS2BR3q/B2BG-11.jpg',
   },
   {
     title: 'Awards & Recognitions',
     desc: 'Celebrating the achievements and impact of our volunteers and partners.',
-    image: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=800',
+    image: 'https://i.ibb.co/yBMVWM47/B2BG-12.jpg',
   },
   {
     title: 'Management Affairs',
     desc: 'Annual general meeting and strategic planning for the upcoming year.',
-    image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=800',
+    image: 'https://i.ibb.co/CpmzJFzW/B2BG-13.jpg',
   },
 ];
 
@@ -62,7 +61,7 @@ export default function Events({ limit }: EventsProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white rounded-2xl overflow-hidden shadow-lg group hover:shadow-2xl transition-all flex flex-col h-full"
+            className="bg-white rounded-2xl overflow-hidden shadow-lg group hover:shadow-2xl transition-all flex flex-col h-full interactive-card"
           >
             <div className="h-56 overflow-hidden relative">
               <img
@@ -82,13 +81,6 @@ export default function Events({ limit }: EventsProps) {
               <p className="text-gray-600 mb-8 text-sm leading-relaxed flex-grow">
                 {event.desc}
               </p>
-              <Link
-                to="/events"
-                className="inline-flex items-center gap-2 text-accent font-bold uppercase tracking-wider text-xs group/btn"
-              >
-                Learn More
-                <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-              </Link>
             </div>
           </motion.div>
         ))}

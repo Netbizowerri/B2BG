@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CreditCard, Landmark, Heart, Send, CheckCircle, X, Copy, Check, Users } from 'lucide-react';
+import { Heart, Send, CheckCircle, X, Copy, Check, Users } from 'lucide-react';
+import { sanitizeAmount, sanitizeEmail, sanitizePhone, sanitizeText } from '../utils/security';
 
 interface DonationProps {
   showVolunteer?: boolean;
@@ -9,24 +10,56 @@ interface DonationProps {
 export default function Donation({ showVolunteer = true }: DonationProps) {
   const [donationStatus, setDonationStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [donationError, setDonationError] = useState<string | null>(null);
+  const [volunteerError, setVolunteerError] = useState<string | null>(null);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleDonationSubmit = async (e: FormEvent) => {
+  const handleDonationSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDonationError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const fullName = sanitizeText(String(formData.get('fullName') || ''), 80);
+    const email = sanitizeEmail(String(formData.get('email') || ''));
+    const phone = sanitizePhone(String(formData.get('phone') || ''));
+    const amount = sanitizeAmount(String(formData.get('amount') || ''));
+
+    if (!fullName || !email || !phone || !amount) {
+      setDonationError('Please enter valid details before submitting your pledge.');
+      return;
+    }
+
     setDonationStatus('submitting');
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     setDonationStatus('success');
+    e.currentTarget.reset();
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setVolunteerError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const fullName = sanitizeText(String(formData.get('fullName') || ''), 80);
+    const email = sanitizeEmail(String(formData.get('email') || ''));
+    const phone = sanitizePhone(String(formData.get('phone') || ''));
+    const location = sanitizeText(String(formData.get('location') || ''), 80);
+    const area = sanitizeText(String(formData.get('area') || ''), 60);
+    const message = sanitizeText(String(formData.get('motivation') || ''), 700);
+
+    if (!fullName || !email || !phone || !location || !area || !message) {
+      setVolunteerError('Please complete all fields with valid information.');
+      return;
+    }
+
     setStatus('submitting');
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     setStatus('success');
+    e.currentTarget.reset();
   };
 
   const copyToClipboard = (text: string) => {
@@ -60,6 +93,7 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                 onClick={() => {
                   setIsDonationModalOpen(true);
                   setDonationStatus('idle');
+                  setDonationError(null);
                 }}
                 className="btn-primary flex items-center gap-2"
               >
@@ -78,7 +112,7 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
             {/* Image Collage */}
             <div className="absolute top-0 left-0 w-3/5 h-3/5 rounded-2xl overflow-hidden shadow-2xl z-20 border-4 border-primary">
               <img 
-                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=600" 
+                src="https://i.ibb.co/jvYZk4fJ/6c137a11-4def-4bf6-b3ac-a479adf1d390.png" 
                 alt="Touching Lives 1" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -86,7 +120,7 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
             </div>
             <div className="absolute bottom-0 right-0 w-3/5 h-3/5 rounded-2xl overflow-hidden shadow-2xl z-10 border-4 border-primary">
               <img 
-                src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&q=80&w=600" 
+                src="https://i.ibb.co/hRSxgfjz/c8039b7b-31bf-45ed-9d75-5f94fc765a99.png" 
                 alt="Touching Lives 2" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -94,7 +128,7 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
             </div>
             <div className="absolute top-1/4 right-0 w-2/5 h-2/5 rounded-2xl overflow-hidden shadow-2xl z-30 border-4 border-primary">
               <img 
-                src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=600" 
+                src="https://i.ibb.co/5xRfh053/c8989ae9-282f-41a7-8b54-443577263f2f.png" 
                 alt="Touching Lives 3" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -147,6 +181,7 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                   onClick={() => {
                     setIsVolunteerModalOpen(true);
                     setStatus('idle');
+                    setVolunteerError(null);
                   }}
                   className="group relative inline-flex items-center gap-3 bg-white text-primary px-10 py-5 rounded-2xl font-black uppercase tracking-tighter text-lg hover:bg-accent hover:text-white transition-all shadow-2xl shadow-black/20"
                 >
@@ -225,6 +260,9 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                           <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Full Name</label>
                           <input
                             required
+                            name="fullName"
+                            minLength={2}
+                            maxLength={80}
                             type="text"
                             placeholder="John Doe"
                             className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
@@ -234,6 +272,8 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                           <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Email Address</label>
                           <input
                             required
+                            name="email"
+                            maxLength={254}
                             type="email"
                             placeholder="john@example.com"
                             className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
@@ -243,6 +283,9 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                           <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Phone Number</label>
                           <input
                             required
+                            name="phone"
+                            minLength={7}
+                            maxLength={24}
                             type="tel"
                             placeholder="+234 ..."
                             className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
@@ -252,6 +295,8 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                           <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Proposed Amount (NGN)</label>
                           <input
                             required
+                            name="amount"
+                            min={1}
                             type="number"
                             placeholder="50,000"
                             className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all font-bold text-lg"
@@ -270,6 +315,11 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                           )}
                         </button>
                       </form>
+                      {donationError && (
+                        <p className="mt-4 text-sm font-medium text-red-700 bg-red-100 rounded-lg px-4 py-3">
+                          {donationError}
+                        </p>
+                      )}
                     </div>
 
                     {/* Bank Details Side */}
@@ -292,6 +342,7 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                           <div className="flex items-center justify-between">
                             <p className="text-2xl font-black tracking-wider text-accent">1234567890</p>
                             <button 
+                              type="button"
                               onClick={() => copyToClipboard('1234567890')}
                               className="p-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
                             >
@@ -375,6 +426,9 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                       <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Full Name</label>
                       <input
                         required
+                        name="fullName"
+                        minLength={2}
+                        maxLength={80}
                         type="text"
                         placeholder="John Doe"
                         className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
@@ -384,6 +438,8 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                       <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Email Address</label>
                       <input
                         required
+                        name="email"
+                        maxLength={254}
                         type="email"
                         placeholder="john@example.com"
                         className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
@@ -393,6 +449,9 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                       <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Phone Number</label>
                       <input
                         required
+                        name="phone"
+                        minLength={7}
+                        maxLength={24}
                         type="tel"
                         placeholder="+234 ..."
                         className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
@@ -402,6 +461,9 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                       <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Location</label>
                       <input
                         required
+                        name="location"
+                        minLength={2}
+                        maxLength={80}
                         type="text"
                         placeholder="Lagos, Nigeria"
                         className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
@@ -411,6 +473,7 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                       <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Area of Interest</label>
                       <select
                         required
+                        name="area"
                         className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all appearance-none"
                       >
                         <option value="">Select an area</option>
@@ -424,11 +487,20 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
                     <div className="md:col-span-2 flex flex-col gap-2">
                       <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Message / Motivation</label>
                       <textarea
+                        name="motivation"
+                        required
+                        minLength={10}
+                        maxLength={700}
                         rows={4}
                         placeholder="Tell us why you want to join B2BG..."
                         className="p-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all resize-none"
                       />
                     </div>
+                    {volunteerError && (
+                      <p className="md:col-span-2 text-sm font-medium text-red-700 bg-red-100 rounded-lg px-4 py-3">
+                        {volunteerError}
+                      </p>
+                    )}
                     <div className="md:col-span-2 mt-4">
                       <button
                         disabled={status === 'submitting'}
@@ -453,5 +525,3 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
     </section>
   );
 }
-
-

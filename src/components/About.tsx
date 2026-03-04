@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const objectives = [
   'To provide humanitarian assistance to the less privileged.',
@@ -11,7 +12,15 @@ const objectives = [
   'To align with Sustainable Development Goals (SDGs) for community transformation.',
 ];
 
-export default function About() {
+interface AboutProps {
+  showLearnMore?: boolean;
+  imageSrc?: string;
+}
+
+export default function About({
+  showLearnMore = false,
+  imageSrc = 'https://i.ibb.co/35HFcLSg/Untitled-design.jpg',
+}: AboutProps) {
   return (
     <section id="about" className="section-padding">
       <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -24,7 +33,7 @@ export default function About() {
         >
           <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
             <img
-              src="https://i.ibb.co/35HFcLSg/Untitled-design.jpg"
+              src={imageSrc}
               alt="B2BG Vision"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -66,6 +75,14 @@ export default function About() {
               <p className="text-xs text-gray-500">A world where every individual has the opportunity to thrive.</p>
             </div>
           </div>
+
+          {showLearnMore && (
+            <div className="mt-8">
+              <Link to="/about" className="btn-primary">
+                Learn More
+              </Link>
+            </div>
+          )}
         </motion.div>
       </div>
 
@@ -99,4 +116,3 @@ export default function About() {
     </section>
   );
 }
-
