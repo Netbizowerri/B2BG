@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #0B2E4F;
+  --color-secondary: #1E4E79;
+  --color-accent: #B57A3F;
+  --color-neutral-bg: #F5F7FA;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans bg-neutral-bg text-primary;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto;
+  }
+  .btn-primary {
+    @apply bg-accent text-white px-8 py-3 rounded-md font-semibold uppercase tracking-wider transition-all hover:bg-accent/90 hover:scale-105 active:scale-95;
+  }
+  .btn-outline {
+    @apply border-2 border-white text-white px-8 py-3 rounded-md font-semibold uppercase tracking-wider transition-all hover:bg-white hover:text-primary hover:scale-105 active:scale-95;
+  }
+}
