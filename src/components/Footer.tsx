@@ -55,9 +55,9 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Email"
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent w-full"
+                className="min-w-0 flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               />
-              <button className="bg-accent p-2 rounded-lg hover:bg-opacity-90 transition-all">
+              <button className="shrink-0 bg-accent p-2 rounded-lg hover:bg-opacity-90 transition-all">
                 <Heart size={18} className="fill-white" />
               </button>
             </form>

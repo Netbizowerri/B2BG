@@ -28,6 +28,7 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
 
@@ -38,6 +39,23 @@ export default function Navbar() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const updateMobileState = (event: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(event.matches);
+    };
+
+    updateMobileState(mediaQuery);
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', updateMobileState);
+      return () => mediaQuery.removeEventListener('change', updateMobileState);
+    }
+
+    mediaQuery.addListener(updateMobileState);
+    return () => mediaQuery.removeListener(updateMobileState);
   }, []);
 
   useEffect(() => {
@@ -64,15 +82,16 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  const navTextColor = scrolled || !isHome ? 'text-primary' : 'text-white';
-  const navBgColor = scrolled || !isHome ? 'bg-white shadow-md py-2' : 'bg-transparent py-4';
+  const isSolidNav = scrolled || !isHome || isMobile;
+  const navTextColor = isSolidNav ? 'text-primary' : 'text-white';
+  const navBgColor = isSolidNav ? 'bg-white shadow-md py-2' : 'bg-transparent py-4';
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${navBgColor}`}>
+    <nav className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${navBgColor}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <img
-            src={scrolled || !isHome ? 'https://i.ibb.co/xSn1R5Yy/B2BG.png' : 'https://i.ibb.co/SD27722F/B2BG-2.png'}
+            src={isSolidNav ? 'https://i.ibb.co/xSn1R5Yy/B2BG.png' : 'https://i.ibb.co/SD27722F/B2BG-2.png'}
             alt="B2BG Logo"
             className="h-[64px] md:h-20 w-auto object-contain transition-all duration-300"
             referrerPolicy="no-referrer"
