@@ -71,6 +71,10 @@ export default function AdminForms() {
             </div>
           </div>
 
+          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Admin note: Please delete processed submissions regularly to keep the dashboard fast and prevent website slowdown.
+          </div>
+
           {submissions.length === 0 ? (
             <div className="mt-8 rounded-2xl border border-dashed border-gray-200 p-10 text-center text-gray-500">
               No form submissions yet.
