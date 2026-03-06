@@ -1,9 +1,13 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { type ReactElement } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import WhatsAppFab from './components/WhatsAppFab';
+import { isAdminAuthenticated } from './utils/adminAuth';
+import AdminForms from './pages/AdminForms';
+import AdminLogin from './pages/AdminLogin';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Donate from './pages/Donate';
@@ -14,6 +18,14 @@ import Home from './pages/Home';
 import Leadership from './pages/Leadership';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
+
+function ProtectedAdminRoute({ children }: { children: ReactElement }) {
+  if (!isAdminAuthenticated()) {
+    return <Navigate to="/adminlogin" replace />;
+  }
+
+  return children;
+}
 
 function RoutedApp() {
   const location = useLocation();
@@ -42,6 +54,23 @@ function RoutedApp() {
               <Route path="/donate" element={<Donate />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/adminlogin" element={<AdminLogin />} />
+              <Route
+                path="/admin/forms"
+                element={(
+                  <ProtectedAdminRoute>
+                    <AdminForms />
+                  </ProtectedAdminRoute>
+                )}
+              />
+              <Route
+                path="/admin"
+                element={(
+                  <ProtectedAdminRoute>
+                    <Navigate to="/admin/forms" replace />
+                  </ProtectedAdminRoute>
+                )}
+              />
             </Routes>
           </motion.div>
         </AnimatePresence>

@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { motion } from 'motion/react';
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from 'lucide-react';
 import { sanitizeEmail, sanitizeText } from '../utils/security';
+import { saveFormSubmission } from '../utils/formStore';
 
 type ContactStatus = 'idle' | 'success' | 'error';
 
@@ -23,6 +24,13 @@ export default function Contact() {
       setErrorMessage('Please complete the form with valid details before submitting.');
       return;
     }
+
+    saveFormSubmission('contact', {
+      name,
+      email,
+      subject,
+      message,
+    });
 
     setStatus('success');
     setErrorMessage('');

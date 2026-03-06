@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Send, CheckCircle, X, Copy, Check, Users } from 'lucide-react';
 import { sanitizeAmount, sanitizeEmail, sanitizePhone, sanitizeText } from '../utils/security';
+import { saveFormSubmission } from '../utils/formStore';
 
 interface DonationProps {
   showVolunteer?: boolean;
@@ -34,6 +35,12 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
     setDonationStatus('submitting');
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
+    saveFormSubmission('donation', {
+      fullName,
+      email,
+      phone,
+      amount,
+    });
     setDonationStatus('success');
     e.currentTarget.reset();
   };
@@ -58,6 +65,14 @@ export default function Donation({ showVolunteer = true }: DonationProps) {
     setStatus('submitting');
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
+    saveFormSubmission('volunteer', {
+      fullName,
+      email,
+      phone,
+      location,
+      area,
+      message,
+    });
     setStatus('success');
     e.currentTarget.reset();
   };
