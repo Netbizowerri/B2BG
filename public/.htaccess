@@ -4,6 +4,12 @@
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Canonical host: keep all traffic on one origin so browser storage stays consistent.
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^www\.b2bg\.ng$ [NC]
+  RewriteRule ^ https://www.b2bg.ng%{REQUEST_URI} [L,R=301]
+
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} -f [OR]

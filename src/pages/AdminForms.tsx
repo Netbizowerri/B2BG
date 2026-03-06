@@ -72,7 +72,8 @@ export default function AdminForms() {
           </div>
 
           <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            Admin note: Please delete processed submissions regularly to keep the dashboard fast and prevent website slowdown.
+            Admin note: Please delete processed submissions regularly to keep the dashboard fast. Submissions are stored per
+            browser and domain, so always use this same site origin when testing forms and reviewing entries.
           </div>
 
           {submissions.length === 0 ? (
